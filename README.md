@@ -46,4 +46,4 @@ const { theme, dispatch } = useModel('tabMenu');
 
 切换主题一共就这三处地方，极为简单。
 
-该项目地址以上传[github](https://github.com/riosF/pc-phone)
+该项目地址以上传[github](https://github.com/riosF/Constellation)
