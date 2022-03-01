@@ -4,6 +4,9 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  headScripts: [
+    'http://api.map.baidu.com/api?type=webgl&v=1.0&ak=q8Bantye74r6i8yuZrUSRWhw8hTjtnFo',
+  ],
   title: 'Hello',
   // layout: {},
   routes: [

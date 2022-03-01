@@ -1,8 +1,12 @@
 import React from 'react';
-import { DropdownTable } from 'dropdown-table';
+// import { DropdownTable } from 'dropdown-table';
 import { useAntdTable } from 'ahooks';
-import { Button, Form, message } from 'antd';
+import { Button, Col, Form, message, Row, Space, Statistic } from 'antd';
 import { useState } from 'react';
+import './index.less';
+import { DropdownTable } from 'dropdown-table';
+import { CountUp } from 'count-up-es-react';
+import { LikeOutlined } from '@ant-design/icons';
 
 const columns = [
   {
@@ -61,6 +65,7 @@ const getData = (current: number, pageSize: number, searchKey?: string) => {
 
 const FormTest = () => {
   const [form] = Form.useForm();
+  const [text, setText] = useState('');
 
   const [searchKey, setSearchKey] = useState('');
 
@@ -76,82 +81,161 @@ const FormTest = () => {
   );
 
   return (
-    <div className="custom-component-page">
-      <div className="custom-component-page__demo">
-        普通单选用法：
-        <DropdownTable
-          columns={columns}
-          mode="radio"
-          placeholder="点击选择用户"
-          searchPlaceholder="请输入用户名或者姓名搜索"
-          optionValueProp="id"
-          optionLabelProp="name"
-          onChange={(selectedKeys) => {
-            console.log('selectedKeys:', selectedKeys);
-          }}
-          tableProps={{ ...(tableProps as any) }}
-          dropdownStyle={{ minWidth: 360 }} // 设置下拉表最小宽度，此处设置width无效必须设置minWidth
-        />
-      </div>
-      <div className="custom-component-page__demo">
-        普通多选用法：
-        <DropdownTable
-          columns={columns}
-          mode="checkbox"
-          placeholder="点击选择用户"
-          searchPlaceholder="请输入用户名或者姓名搜索"
-          optionValueProp="id"
-          optionLabelProp="name"
-          onChange={(selectedKeys) => {
-            console.log('selectedKeys:', selectedKeys);
-          }}
-          tableProps={{ ...(tableProps as any) }}
-          dropdownStyle={{ minWidth: 360 }} // 设置下拉表最小宽度，此处设置width无效必须设置minWidth
-        />
-      </div>
-      <div className="custom-component-page__demo">
-        <Form
-          onFinish={(values) => {
-            console.log('values:', values);
-            message.info(`获取到表单数据${JSON.stringify(values)}`);
-          }}
-          form={form}
-          initialValues={{ table: ['3', '4'] }}
-        >
-          <Form.Item label="form设置初始值" name="table">
-            <DropdownTable
-              columns={columns}
-              defaultOptions={[...dataSource]
-                .map((rs) => {
-                  return { value: rs.id, label: rs.name };
-                })
-                .splice(2, 2)}
-              mode="checkbox"
-              maxTagCount="responsive"
-              placeholder="点击选择用户"
-              searchPlaceholder="请输入用户名或者姓名搜索"
-              optionValueProp="id"
-              optionLabelProp="name"
-              disableKeys={['1', '8']}
-              onChange={(selectedKeys) => {
-                console.log('selectedKeys:', selectedKeys);
+    <div className="form-test">
+      <h2>dropdown-table 组件示例</h2>
+      <h4> yarn add dropdown-table </h4>
+      <Row gutter={12} style={{ marginTop: 24, marginBottom: 12 }}>
+        <Col span={8}>
+          <div className="form-test__demo">
+            <div className="form-test__title">普通单选用法</div>
+            <div className="form-test__explore">
+              用法与Select相同，多了columns与tableProps等几个参数，mode为
+              radio与checkbox
+            </div>
+            <div className="form-test__content">
+              <DropdownTable
+                columns={columns}
+                mode="radio"
+                placeholder="点击选择用户"
+                searchPlaceholder="请输入用户名或者姓名搜索"
+                optionValueProp="id"
+                optionLabelProp="name"
+                onChange={(selectedKeys) => {
+                  console.log('selectedKeys:', selectedKeys);
+                }}
+                tableProps={{ ...(tableProps as any) }}
+              />
+            </div>
+          </div>
+        </Col>
+        <Col span={8}>
+          <div className="form-test__demo">
+            <div className="form-test__title">普通多选用法</div>
+            <div className="form-test__explore">
+              设置下拉框样式时，宽度要使用minWidth: 600
+            </div>
+            <div className="form-test__content">
+              <DropdownTable
+                size="large"
+                columns={columns}
+                mode="checkbox"
+                placeholder="点击选择用户"
+                maxTagCount="responsive"
+                searchPlaceholder="请输入用户名或者姓名搜索"
+                optionValueProp="id"
+                optionLabelProp="name"
+                onChange={(selectedKeys) => {
+                  console.log('selectedKeys:', selectedKeys);
+                }}
+                tableProps={{ ...(tableProps as any) }}
+                dropdownStyle={{ minWidth: 600 }} // 设置下拉表最小宽度，此处设置width无效必须设置minWidth
+              />
+            </div>
+          </div>
+        </Col>
+        <Col span={8}>
+          <div className="form-test__demo">
+            <div className="form-test__title">搭配表单使用</div>
+            <div className="form-test__explore">
+              表单设置初始值并禁选key为1 8
+            </div>
+            <div className="form-test__content">
+              <Form
+                onFinish={(values) => {
+                  message.info(`获取到表单数据${JSON.stringify(values)}`);
+                  setText('表单数据' + JSON.stringify(values));
+                }}
+                form={form}
+                initialValues={{ table: ['3', '4'] }}
+              >
+                <Form.Item label="Form" name="table">
+                  <DropdownTable
+                    columns={columns}
+                    defaultOptions={[...dataSource]
+                      .map((rs) => {
+                        return { value: rs.id, label: rs.name };
+                      })
+                      .splice(2, 2)}
+                    mode="checkbox"
+                    value={[]}
+                    maxTagCount="responsive"
+                    placeholder="点击选择用户"
+                    searchPlaceholder="请输入用户名或者姓名搜索"
+                    optionValueProp="id"
+                    optionLabelProp="name"
+                    disableKeys={['1', '8']}
+                    // onChange={(selectedKeys) => {
+                    //   console.log('selectedKeys:', selectedKeys);
+                    // }}
+                    onSearch={(keyword) => {
+                      setSearchKey(keyword);
+                    }}
+                    tableProps={{ ...(tableProps as any) }}
+                    dropdownStyle={{ minWidth: 360 }} // 设置下拉表最小宽度，此处设置width无效必须设置minWidth
+                  />
+                </Form.Item>
+              </Form>
+              <Space>
+                <Button
+                  onClick={() => {
+                    form.submit();
+                  }}
+                  style={{ marginTop: -12 }}
+                >
+                  提交
+                </Button>
+                <div>{text}</div>
+              </Space>
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <h2>count-up-es-react 组件示例</h2>
+      <h4> yarn add count-up-es-react</h4>
+      <Row gutter={12} style={{ marginTop: 24 }}>
+        <Col span={6}>
+          <div className="form-test__demo" style={{ height: 150 }}>
+            <div className="form-test__title">CountUp普通用法</div>
+            <div className="form-test__explore">
+              在10s内从0-999，动画easeInCubic（先慢后快）
+            </div>
+            <div className="form-test__content">
+              <CountUp
+                start={0}
+                end={999}
+                easing="easeInCubic"
+                duration={5000}
+                render={({ value }) => {
+                  return <div className="form-test__number">{value}</div>;
+                }}
+              />
+            </div>
+          </div>
+        </Col>
+        <Col span={6}>
+          <div className="form-test__demo" style={{ height: 150 }}>
+            <div className="form-test__title">CountUp普通用法</div>
+            <div className="form-test__explore">
+              easeOutCubic（先快后慢），搭配antd组件
+            </div>
+            <CountUp
+              start={0}
+              end={100}
+              easing="easeOutCubic"
+              duration={3000}
+              render={({ rawValue }) => {
+                return (
+                  <Statistic
+                    title="Feedback"
+                    value={Math.ceil(rawValue)}
+                    prefix={<LikeOutlined />}
+                  />
+                );
               }}
-              onSearch={(keyword) => {
-                setSearchKey(keyword);
-              }}
-              tableProps={{ ...(tableProps as any) }}
-              dropdownStyle={{ minWidth: 360 }} // 设置下拉表最小宽度，此处设置width无效必须设置minWidth
             />
-          </Form.Item>
-        </Form>
-        <Button
-          onClick={() => {
-            form.submit();
-          }}
-        >
-          提交
-        </Button>
-      </div>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 };

@@ -1,11 +1,8 @@
-import { Layout, Menu, Result, Tabs } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { SlackOutlined } from '@ant-design/icons';
+import { Button, Layout, Menu, Space, Tabs } from 'antd';
+import { useEffect, useRef } from 'react';
 import { history, Route, Switch, useModel } from 'umi';
 import './index.less';
-import { SlackOutlined } from '@ant-design/icons';
-// import 'antd/dist/antd.variable.min.css';
-
-// import 'antd/dist/antd.variable.min.css';
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer } = Layout;
@@ -18,16 +15,16 @@ const menuDatas = [
   },
   {
     key: '/analysis',
-    tab: '分析',
+    tab: '地图',
   },
   {
     key: '/test',
-    tab: '博纳拉',
+    tab: '组件推荐',
   },
 ];
 
 export default function IndexPage(props: any) {
-  const { activeKey, tabs, dispatch } = useModel('tabMenu');
+  const { activeKey, tabs, dispatch, theme } = useModel('tabMenu');
 
   const isFirst = useRef(true);
 
@@ -77,17 +74,13 @@ export default function IndexPage(props: any) {
 
   return (
     <Layout className="layout">
-      <Header style={{ zIndex: 1, width: '100%' }}>
+      <Header style={{ zIndex: 1, width: '100%', background: theme }}>
         <div className="logo">
-          {/* <img
-            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K"
-            alt=""
-            height="20"
+          <SlackOutlined
             className="logo__img"
-            style={{ filter:'blur(2px)'}}
-          /> */}
-          <SlackOutlined className="logo__img" style={{ fontSize: 20 }} />
-          <div className="logo__text">Colgroup Umi</div>
+            style={{ fontSize: 20, color: 'white' }}
+          />
+          <div className="logo__text">柯基的React</div>
         </div>
         <div className="layout-menu">
           <Tabs
@@ -182,6 +175,9 @@ export default function IndexPage(props: any) {
           )}
         </div>
       </Content>
+      {/* <Affix offsetBottom={40} style={{ left: 12 }}>
+        <Button type="primary">Affix</Button>
+      </Affix> */}
     </Layout>
   );
 }
