@@ -4,9 +4,9 @@ import { useAntdTable } from 'ahooks';
 import { Button, Col, Form, message, Row, Space, Statistic } from 'antd';
 import { useState } from 'react';
 import './index.less';
-import { DropdownTable } from 'dropdown-table';
 import { CountUp } from 'count-up-es-react';
 import { LikeOutlined } from '@ant-design/icons';
+import DropdownTable from '@/components/ColorRGBPicker/DropdownTable';
 
 const columns = [
   {
